@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
+[ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
+
+[node name="Main" type="Node2D"]
+
+[node name="Path" type="Node2D" parent="."]
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 473.517, 305.281 )
+script = ExtResource( 1 )
+speed = 4000.0
+path_p = NodePath("../Path")
