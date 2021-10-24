@@ -8,7 +8,10 @@
 [node name="Path" type="Node2D" parent="."]
 
 [node name="Ball" parent="." instance=ExtResource( 2 )]
-position = Vector2( 473.517, 305.281 )
+position = Vector2( 412.739, 242.952 )
 script = ExtResource( 1 )
-speed = 4000.0
+speed = 100.0
 path_p = NodePath("../Path")
+
+[node name="Camera2D" type="Camera2D" parent="Ball"]
+current = true
