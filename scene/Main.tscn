@@ -1,17 +1,117 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://asset/texture/console.png" type="Texture" id=3]
 
 [node name="Main" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
 
 [node name="Path" type="Node2D" parent="."]
 
 [node name="Ball" parent="." instance=ExtResource( 2 )]
 position = Vector2( 412.739, 242.952 )
 script = ExtResource( 1 )
-speed = 100.0
+speed = 200.0
 path_p = NodePath("../Path")
+timer_p = NodePath("../BallTimer")
+rope_width = 70.0
 
 [node name="Camera2D" type="Camera2D" parent="Ball"]
 current = true
+editor_draw_screen = false
+
+[node name="BallTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UI"]
+visible = false
+anchor_left = 0.0795984
+anchor_top = 0.59994
+anchor_right = 0.274911
+anchor_bottom = 0.933273
+margin_left = 90.0
+margin_top = 80.0
+margin_right = -10.0
+margin_bottom = -20.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 90, 80 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="console" type="Sprite" parent="UI/Control"]
+position = Vector2( 50, 50 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 3 )
+
+[node name="B_UP" type="Button" parent="UI/Control/console"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.325
+anchor_top = 0.0125
+anchor_right = 0.6875
+anchor_bottom = 0.3125
+margin_left = -80.0
+margin_top = -80.0
+margin_right = -80.0
+margin_bottom = -80.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="B_DOWN" type="Button" parent="UI/Control/console"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.31875
+anchor_top = 0.69375
+anchor_right = 0.69375
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -80.0
+margin_right = -80.0
+margin_bottom = -80.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="B_LEFT" type="Button" parent="UI/Control/console"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.00625
+anchor_top = 0.3125
+anchor_right = 0.3125
+anchor_bottom = 0.7
+margin_left = -80.0
+margin_top = -80.0
+margin_right = -80.0
+margin_bottom = -80.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="B_RIGHT" type="Button" parent="UI/Control/console"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.7
+anchor_top = 0.31875
+anchor_right = 1.0
+anchor_bottom = 0.68125
+margin_left = -80.0
+margin_top = -80.0
+margin_right = -80.0
+margin_bottom = -80.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
+[connection signal="button_up" from="UI/Control/console/B_UP" to="Ball" method="_on_B_UP_button_up"]
+[connection signal="button_up" from="UI/Control/console/B_DOWN" to="Ball" method="_on_B_DOWN_button_up"]
+[connection signal="button_up" from="UI/Control/console/B_LEFT" to="Ball" method="_on_B_LEFT_button_up"]
+[connection signal="button_up" from="UI/Control/console/B_RIGHT" to="Ball" method="_on_B_RIGHT_button_up"]

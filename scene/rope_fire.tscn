@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.613497 ), 0.0, 0.0, 0, 0 ]
+
+[node name="fire" type="CPUParticles2D"]
+position = Vector2( 483.823, 287.387 )
+emitting = false
+amount = 40
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 40 )
+gravity = Vector2( 0, 0 )
+initial_velocity = 80.0
+scale_amount = 10.0
+scale_amount_curve = SubResource( 1 )
+color = Color( 0.356863, 0.6, 0.776471, 1 )
