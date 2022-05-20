@@ -13,4 +13,4 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 80.0
 scale_amount = 10.0
 scale_amount_curve = SubResource( 1 )
-color = Color( 0.356863, 0.6, 0.776471, 1 )
+color = Color( 0.6, 0.447059, 0.337255, 1 )

@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://asset/shader/Rope_shader.tres" type="Shader" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://asset/texture/rope.png" type="Texture" id=2]
 
 [resource]
 shader = ExtResource( 1 )

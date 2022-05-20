@@ -8,17 +8,20 @@ var is_started: bool = false
 var delta_ball_position: Vector2 = Vector2.ZERO
 var last_ball_position: Vector2
 var heading_toward: Vector2
-var decaying_speed: float = 4
+var decaying_speed_firstpt: float = 4
+var decaying_speed_lastpt: float = 2
 var uvx: float = 0
 var Ball: KinematicBody2D
 var Ball_rect: Rect2
 var Rope_rect: Rect2
+var can_extend = true
 
 func _ready():
 	Ball = get_node("/root/Main/Ball")
 	Ball.connect("Extend_rope", self, "on_Extend_rope")
 	Ball.connect("on_destroy", self, "on_rope_destroy")
 	Ball.connect("set_rope_state", self, "set_rope_state")
+	Ball.connect("on_rope_add", self, "on_rope_add")
 	var ball: KinematicBody2D = get_node("/root/Main/Ball")
 	last_ball_position = ball.position
 	set_ball_rope_rect()
@@ -86,12 +89,20 @@ func on_rope_destroy():
 		emit_signal("started")
 		
 
+func on_rope_add(rope_name: String):
+	if rope_name == name:
+		return
+	can_extend = false
+
 func set_rope_state():
+	if is_started:
+		return
 	var first_point = points[0]
 	var last_point = points[points.size()-1]
 	heading_toward = first_point.direction_to(last_point)
 	if get_node("/root/Main/Path").get_child_count() == 1:
 		is_started = true
+		emit_signal("started")
 	is_rope_active = true
 	
 func on_Extend_rope(new_position: Vector2):
@@ -107,14 +118,14 @@ func on_Extend_rope(new_position: Vector2):
 	last_ball_position = new_position
 	var first_point: Vector2 = points[0]
 	var last_point: Vector2 = points[points.size()-1]
-	if delta_ball_position.length()>=1 and is_rope_active and is_started:
+	if delta_ball_position.length()>=1 and is_rope_active and is_started and can_extend:
 		var first_pt = first_point+heading_toward*delta_ball_position*0
 		var second_pt = last_point+heading_toward*delta_ball_position
 		set_rope_position(first_pt, second_pt)
 		delta_ball_position = Vector2.ZERO
 	elif not is_rope_active and is_started:
-		var first_pt = first_point+heading_toward*decaying_speed
-		var second_pt = last_point-heading_toward*decaying_speed
+		var first_pt = first_point+heading_toward*decaying_speed_firstpt
+		var second_pt = last_point-heading_toward*decaying_speed_lastpt
 		set_rope_position(first_pt, second_pt)
 		if first_point.distance_to(last_point)<width:
 			queue_free()

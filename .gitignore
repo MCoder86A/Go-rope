@@ -5,4 +5,5 @@
 .directory
 asset/
 .import/
+web/
 scene/Godot_v3.3.4-stable_x11.64

@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://asset/texture/info.png" type="Texture" id=1]
+[ext_resource path="res://scene/UI/src/UI.gd" type="Script" id=2]
+[ext_resource path="res://asset/texture/ui_play.png" type="Texture" id=3]
+[ext_resource path="res://asset/texture/ui_tutorial.png" type="Texture" id=4]
+[ext_resource path="res://asset/texture/ui_gameOver.png" type="Texture" id=5]
+[ext_resource path="res://asset/texture/ui_cross.png" type="Texture" id=6]
+[ext_resource path="res://asset/font/dynamic_font.tres" type="DynamicFont" id=7]
+
+[node name="inGameUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -6.10352e-05
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOver" type="TextureRect" parent="."]
+visible = false
+anchor_left = 0.222656
+anchor_top = 0.04
+anchor_right = 0.777344
+anchor_bottom = 0.946667
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="replay" type="TextureButton" parent="GameOver"]
+anchor_left = 0.433674
+anchor_top = 0.659775
+anchor_right = 0.581963
+anchor_bottom = 0.82143
+texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score" type="Label" parent="GameOver"]
+anchor_left = -0.00704225
+anchor_top = 0.455882
+anchor_right = 0.992957
+anchor_bottom = 0.566176
+size_flags_stretch_ratio = 0.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
+text = "Score: 1220"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="maxScore" type="Label" parent="GameOver"]
+anchor_left = 0.00704225
+anchor_top = 0.338235
+anchor_right = 1.00704
+anchor_bottom = 0.441176
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
+text = "Highest score: 1220"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tutorial" type="TextureRect" parent="."]
+visible = false
+anchor_left = 0.224609
+anchor_top = 0.0366667
+anchor_right = 0.771484
+anchor_bottom = 0.943333
+margin_left = -2.0
+margin_top = 2.0
+margin_right = 6.0
+margin_bottom = 2.0
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Info" type="TextureButton" parent="."]
+visible = false
+anchor_left = 0.607532
+anchor_top = 0.0533333
+anchor_right = 0.68175
+anchor_bottom = 0.173333
+margin_left = -0.112244
+margin_right = -10.1115
+margin_bottom = 0.000183105
+texture_normal = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cross" type="TextureButton" parent="."]
+visible = false
+anchor_left = 0.685656
+anchor_top = 0.0533333
+anchor_right = 0.763781
+anchor_bottom = 0.173333
+margin_left = 1.88831
+margin_top = 1.90735e-05
+margin_right = 1.88831
+margin_bottom = 1.52588e-05
+texture_normal = ExtResource( 6 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="visibility_changed" from="GameOver" to="." method="_on_GameOver_visibility_changed"]
+[connection signal="button_down" from="GameOver/replay" to="." method="_on_replay_button_down"]
+[connection signal="button_down" from="Info" to="." method="_on_Info_button_down"]
+[connection signal="button_down" from="Cross" to="." method="_on_Cross_button_down"]

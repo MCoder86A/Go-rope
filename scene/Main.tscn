@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
-[ext_resource path="res://asset/texture/console.png" type="Texture" id=3]
+[ext_resource path="res://asset/texture/k_ro_F2C.jpeg" type="Texture" id=3]
+[ext_resource path="res://scene/UI/inGameUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://asset/texture/scorebg.png" type="Texture" id=5]
+[ext_resource path="res://asset/font/dynamic_font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://asset/texture/rotateGuide.png" type="Texture" id=7]
 
 [node name="Main" type="Node2D"]
 __meta__ = {
@@ -14,9 +18,9 @@ __meta__ = {
 [node name="Ball" parent="." instance=ExtResource( 2 )]
 position = Vector2( 412.739, 242.952 )
 script = ExtResource( 1 )
-speed = 200.0
 path_p = NodePath("../Path")
 timer_p = NodePath("../BallTimer")
+UI_p = NodePath("../UI")
 rope_width = 70.0
 
 [node name="Camera2D" type="Camera2D" parent="Ball"]
@@ -29,89 +33,82 @@ one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="UI"]
+[node name="inGameUI" parent="UI" instance=ExtResource( 4 )]
+
+[node name="r_guide" type="TextureRect" parent="UI/inGameUI"]
 visible = false
-anchor_left = 0.0795984
-anchor_top = 0.59994
-anchor_right = 0.274911
-anchor_bottom = 0.933273
-margin_left = 90.0
-margin_top = 80.0
-margin_right = -10.0
-margin_bottom = -20.0
-rect_scale = Vector2( 2, 2 )
-rect_pivot_offset = Vector2( 90, 80 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="console" type="Sprite" parent="UI/Control"]
-position = Vector2( 50, 50 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 3 )
-
-[node name="B_UP" type="Button" parent="UI/Control/console"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.325
-anchor_top = 0.0125
-anchor_right = 0.6875
-anchor_bottom = 0.3125
-margin_left = -80.0
-margin_top = -80.0
-margin_right = -80.0
-margin_bottom = -80.0
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="B_DOWN" type="Button" parent="UI/Control/console"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.31875
-anchor_top = 0.69375
-anchor_right = 0.69375
-anchor_bottom = 1.0
-margin_left = -80.0
-margin_top = -80.0
-margin_right = -80.0
-margin_bottom = -80.0
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="B_LEFT" type="Button" parent="UI/Control/console"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.00625
-anchor_top = 0.3125
-anchor_right = 0.3125
-anchor_bottom = 0.7
-margin_left = -80.0
-margin_top = -80.0
-margin_right = -80.0
-margin_bottom = -80.0
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="B_RIGHT" type="Button" parent="UI/Control/console"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.7
-anchor_top = 0.31875
 anchor_right = 1.0
-anchor_bottom = 0.68125
-margin_left = -80.0
-margin_top = -80.0
-margin_right = -80.0
-margin_bottom = -80.0
+anchor_bottom = 1.0
+texture = ExtResource( 7 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="scores" type="Control" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -514.0
+margin_right = 514.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="bg" type="TextureRect" parent="UI/scores"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -124.0
+margin_top = -16.0
+margin_right = 124.0
+margin_bottom = 32.0
+texture = ExtResource( 5 )
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="grid" type="GridContainer" parent="UI/scores"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -72.0
+margin_top = 2.0
+margin_right = 120.0
+margin_bottom = 34.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="UI/scores/grid"]
+margin_right = 86.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.042757, 0.369141, 0.0400143, 1 )
+text = "Score:"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="number" type="Label" parent="UI/scores/grid"]
+margin_left = 90.0
+margin_right = 110.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.0431373, 0.368627, 0.0392157, 1 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="BG" type="ParallaxBackground" parent="."]
+
+[node name="L1" type="ParallaxLayer" parent="BG"]
+motion_mirroring = Vector2( 1024, 512 )
+
+[node name="Sprite" type="Sprite" parent="BG/L1"]
+texture = ExtResource( 3 )
+centered = false
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
-[connection signal="button_up" from="UI/Control/console/B_UP" to="Ball" method="_on_B_UP_button_up"]
-[connection signal="button_up" from="UI/Control/console/B_DOWN" to="Ball" method="_on_B_DOWN_button_up"]
-[connection signal="button_up" from="UI/Control/console/B_LEFT" to="Ball" method="_on_B_LEFT_button_up"]
-[connection signal="button_up" from="UI/Control/console/B_RIGHT" to="Ball" method="_on_B_RIGHT_button_up"]
+[connection signal="item_rect_changed" from="UI/inGameUI" to="Ball" method="_on_inGameUI_item_rect_changed"]
