@@ -2,7 +2,7 @@
 
 [ext_resource path="res://asset/texture/info.png" type="Texture" id=1]
 [ext_resource path="res://scene/UI/src/UI.gd" type="Script" id=2]
-[ext_resource path="res://asset/texture/ui_play.png" type="Texture" id=3]
+[ext_resource path="res://asset/texture/ui_play_icon.png" type="Texture" id=3]
 [ext_resource path="res://asset/texture/ui_tutorial.png" type="Texture" id=4]
 [ext_resource path="res://asset/texture/ui_gameOver.png" type="Texture" id=5]
 [ext_resource path="res://asset/texture/ui_cross.png" type="Texture" id=6]
@@ -13,9 +13,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -6.10352e-05
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="GameOver" type="TextureRect" parent="."]
 visible = false
@@ -47,8 +44,8 @@ anchor_top = 0.455882
 anchor_right = 0.992957
 anchor_bottom = 0.566176
 size_flags_stretch_ratio = 0.0
-custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
+custom_fonts/font = ExtResource( 7 )
 text = "Score: 1220"
 align = 1
 valign = 1
@@ -63,8 +60,8 @@ anchor_top = 0.338235
 anchor_right = 1.00704
 anchor_bottom = 0.441176
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
+custom_fonts/font = ExtResource( 7 )
 text = "Highest score: 1220"
 align = 1
 valign = 1
