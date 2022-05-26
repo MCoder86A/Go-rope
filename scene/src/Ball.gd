@@ -13,8 +13,9 @@ export var UI_p: NodePath
 export var rope_width: float
 
 #Game state
-var speed: float = 200
+var speed: float = 300
 var score: float = 0
+var scoreSpeed = 50
 var direction: Vector2 = Vector2(1,0)
 var can_add_new_rope: bool = true
 var active_rope_direction: Vector2
@@ -90,7 +91,7 @@ func _physics_process(delta):
 		move(new_move)
 	position+=direction*speed*delta
 	
-	score += delta*5
+	score += delta*scoreSpeed
 	scorelbl.text = String(round(score))
 	
 	emit_signal("Extend_rope", position)
@@ -107,37 +108,6 @@ func on_rope_started():
 	if pos_correction_fin:
 		pos_correction_fin = false
 		
-	if score < 5:
-		level_up(score+220)
-	elif score < 10:
-		level_up(score+230)
-	elif score < 20:
-		level_up(score+240)
-	elif score < 25:
-		level_up(score+250)
-	elif score < 30:
-		level_up(score+260)
-	elif score < 35:
-		level_up(score+270)
-	elif score < 40:
-		level_up(score+280)
-	elif score < 45:
-		level_up(score+290)
-	elif score < 50:
-		level_up(score+300)
-	elif score < 55:
-		level_up(score+302)
-	elif score < 60:
-		level_up(score+303)
-	elif score < 65:
-		level_up(score+304)
-	elif score < 350:
-		level_up(score+308)
-	elif score < 550:
-		level_up(score+320)
-	elif score < 1000:
-		level_up(score+400)
-	
 	
 	
 var target_pt: Vector2

@@ -12,10 +12,10 @@ func _ready():
 func gameover(score: int):
 	if score > highest_score:
 		highest_score = score
-	$GameOver/score.text = "Score: "+String(score)
+	$GameOver/score.text = String(score)
 	$GameOver.show()
-	$Cross.show()
-	$Info.show()
+	#$Cross.show()
+	#$Info.show()
 	
 
 
@@ -36,3 +36,7 @@ func _on_replay_button_down():
 	for controls in get_children():
 		controls.hide()
 	emit_signal("main_control_signal", "replay")
+
+
+func _on_saveMe_button_down():
+	pass # Replace with function body.

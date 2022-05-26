@@ -1,36 +1,66 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://asset/texture/info.png" type="Texture" id=1]
 [ext_resource path="res://scene/UI/src/UI.gd" type="Script" id=2]
-[ext_resource path="res://asset/texture/ui_play_icon.png" type="Texture" id=3]
+[ext_resource path="res://asset/texture/gameOver/SaveMe.png" type="Texture" id=3]
 [ext_resource path="res://asset/texture/ui_tutorial.png" type="Texture" id=4]
-[ext_resource path="res://asset/texture/ui_gameOver.png" type="Texture" id=5]
+[ext_resource path="res://asset/texture/gameOver/Dead.png" type="Texture" id=5]
 [ext_resource path="res://asset/texture/ui_cross.png" type="Texture" id=6]
 [ext_resource path="res://asset/font/dynamic_font.tres" type="DynamicFont" id=7]
+[ext_resource path="res://asset/texture/gameOver/Window.png" type="Texture" id=8]
+[ext_resource path="res://asset/texture/gameOver/Replay.png" type="Texture" id=9]
+[ext_resource path="res://ScoreFont.tres" type="DynamicFont" id=10]
 
 [node name="inGameUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -6.10352e-05
+margin_left = 2.25989
+margin_top = 4.77975
+margin_right = 2.25977
+margin_bottom = 4.77979
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GameOver" type="TextureRect" parent="."]
 visible = false
-anchor_left = 0.222656
-anchor_top = 0.04
-anchor_right = 0.777344
-anchor_bottom = 0.946667
-texture = ExtResource( 5 )
+anchor_left = 0.168506
+anchor_top = 0.171037
+anchor_right = 0.830615
+anchor_bottom = 0.817704
+texture = ExtResource( 8 )
 expand = true
+stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="replay" type="TextureButton" parent="GameOver"]
-anchor_left = 0.433674
-anchor_top = 0.659775
-anchor_right = 0.581963
-anchor_bottom = 0.82143
+anchor_left = 0.591
+anchor_top = 0.356
+anchor_right = 0.861
+anchor_bottom = 0.492
+margin_left = -0.697968
+margin_top = 15.872
+margin_right = 0.242004
+margin_bottom = 15.104
+texture_normal = ExtResource( 9 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="saveMe" type="TextureButton" parent="GameOver"]
+anchor_left = 0.592
+anchor_top = 0.519
+anchor_right = 0.861
+anchor_bottom = 0.652
+margin_left = -0.375977
+margin_top = 14.628
+margin_right = 0.242004
+margin_bottom = 15.024
 texture_normal = ExtResource( 3 )
 expand = true
 stretch_mode = 5
@@ -39,14 +69,18 @@ __meta__ = {
 }
 
 [node name="score" type="Label" parent="GameOver"]
-anchor_left = -0.00704225
-anchor_top = 0.455882
-anchor_right = 0.992957
-anchor_bottom = 0.566176
+anchor_left = 0.023
+anchor_top = 0.359
+anchor_right = 0.556
+anchor_bottom = 0.703
+margin_left = -0.323767
+margin_top = -0.0100861
+margin_right = -0.301086
+margin_bottom = -0.169189
 size_flags_stretch_ratio = 0.0
-custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
-custom_fonts/font = ExtResource( 7 )
-text = "Score: 1220"
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color = Color( 1, 0.811765, 0.588235, 1 )
+text = "1220"
 align = 1
 valign = 1
 autowrap = true
@@ -55,19 +89,35 @@ __meta__ = {
 }
 
 [node name="maxScore" type="Label" parent="GameOver"]
-anchor_left = 0.00704225
-anchor_top = 0.338235
-anchor_right = 1.00704
-anchor_bottom = 0.441176
+anchor_left = 0.0195195
+anchor_top = 0.874359
+anchor_right = 0.98048
+anchor_bottom = 0.95641
 grow_horizontal = 2
-custom_colors/font_color = Color( 0.956863, 0.941176, 0.054902, 1 )
 custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 1, 0.811765, 0.588235, 1 )
 text = "Highest score: 1220"
 align = 1
 valign = 1
 autowrap = true
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="GameOver"]
+anchor_left = 0.59
+anchor_top = 0.0956358
+anchor_right = 0.861
+anchor_bottom = 0.317
+margin_left = -0.0199585
+margin_top = 14.8933
+margin_right = 0.242004
+margin_bottom = 15.004
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
 }
 
 [node name="Tutorial" type="TextureRect" parent="."]
@@ -121,5 +171,6 @@ __meta__ = {
 
 [connection signal="visibility_changed" from="GameOver" to="." method="_on_GameOver_visibility_changed"]
 [connection signal="button_down" from="GameOver/replay" to="." method="_on_replay_button_down"]
+[connection signal="button_down" from="GameOver/saveMe" to="." method="_on_saveMe_button_down"]
 [connection signal="button_down" from="Info" to="." method="_on_Info_button_down"]
 [connection signal="button_down" from="Cross" to="." method="_on_Cross_button_down"]

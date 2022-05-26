@@ -117,24 +117,6 @@ shader_param/TextureUniform = ExtResource( 1 )
 [node name="Ball" type="KinematicBody2D"]
 position = Vector2( 512, 320 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-amount = 40
-local_coords = false
-direction = Vector2( 0, 1 )
-spread = 49.54
-gravity = Vector2( 0, 0 )
-initial_velocity = 28.36
-scale_amount = 19.34
-
-[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
-amount = 40
-local_coords = false
-direction = Vector2( 0, -1 )
-spread = 49.54
-gravity = Vector2( 0, 0 )
-initial_velocity = 65.06
-scale_amount = 19.34
-
 [node name="BallShape" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
