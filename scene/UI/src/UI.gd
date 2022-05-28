@@ -39,4 +39,5 @@ func _on_replay_button_down():
 
 
 func _on_saveMe_button_down():
-	pass # Replace with function body.
+	$GameOver.hide()
+	emit_signal("main_control_signal", "saveMe")

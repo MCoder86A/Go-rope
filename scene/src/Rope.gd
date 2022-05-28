@@ -27,8 +27,6 @@ func _ready():
 	set_ball_rope_rect()
 
 
-func _physics_process(delta):
-	pass
 
 func set_ball_rope_rect():
 	var Ball_texture: Sprite = Ball.get_node("Ball")
@@ -119,9 +117,8 @@ func on_Extend_rope(new_position: Vector2):
 	var first_point: Vector2 = points[0]
 	var last_point: Vector2 = points[points.size()-1]
 	if delta_ball_position.length()>=1 and is_rope_active and is_started and can_extend:
-		var first_pt = first_point+heading_toward*delta_ball_position*0
 		var second_pt = last_point+heading_toward*delta_ball_position
-		set_rope_position(first_pt, second_pt)
+		set_rope_position(first_point, second_pt)
 		delta_ball_position = Vector2.ZERO
 	elif not is_rope_active and is_started:
 		var first_pt = first_point+heading_toward*decaying_speed_firstpt

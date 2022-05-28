@@ -18,6 +18,7 @@ var score: float = 0
 var scoreSpeed = 50
 var direction: Vector2 = Vector2(1,0)
 var can_add_new_rope: bool = true
+var active_rope: Line2D
 var active_rope_direction: Vector2
 var active_rope_start_pt: Vector2
 var active_rope_end_pt: Vector2
@@ -55,14 +56,28 @@ func _ready():
 		rguide.show()
 	
 func main_control_signal(request):
-	if request == "replay":
-		set_physics_process(1)	
-		direction = Vector2.RIGHT
-		Rope_add(Vector2(position.x-50, position.y), direction)
-		speed = 200
-		get_node(UI_p).get_node("scores").show()
-		timer.start(2)
-
+	match request:
+		"replay":
+			var n = get_node("/root/Main/Path")
+			game_over(n)
+			set_physics_process(true)	
+			direction = Vector2.RIGHT
+			Rope_add(Vector2(position.x-50, position.y), direction)
+			speed = 200
+			get_node(UI_p).get_node("scores").show()
+			timer.start(2)
+			score = 0
+		"saveMe":
+			_on_BallTimer_timeout()
+			set_physics_process(true)
+			position = active_rope_start_pt
+			direction = active_rope_direction
+			active_rope.is_started = true
+			can_add_new_rope = true
+			timer.start(2)
+			
+			
+			
 func set_bg_size():
 	var bg_layer: ParallaxLayer = get_tree().get_root().get_node("/root/Main/BG/L1")
 	var sprite: Sprite = bg_layer.get_node("Sprite")
@@ -178,6 +193,7 @@ func Rope_add(start_pt: Vector2, to_direction: Vector2):
 	Rope.add_point(start_pt)
 	Rope.add_point(start_pt+to_direction*200)
 	
+	active_rope = Rope
 	active_rope_direction = to_direction
 	active_rope_start_pt = start_pt
 	active_rope_end_pt = start_pt+to_direction*200
@@ -191,13 +207,7 @@ func Rope_add(start_pt: Vector2, to_direction: Vector2):
 
 func game_over(path: Node):
 	for i in  path.get_children():
-		i.queue_free()
-	emit_signal("gameover", round(score))
-	speed = 0
-	timer.stop()
-	score = 0
-	get_node(UI_p).get_node("scores").hide()
-	set_physics_process(0)
+		i.free()
 	
 # Rope emits destroying signal when ball leave it
 func being_destroy():
@@ -208,7 +218,10 @@ func being_destroy():
 		var ball_rect: Rect2 = i.Ball_rect
 		if ball_rect.intersects(rope_rect):
 			return
-	game_over(n)
+	timer.stop()
+	set_physics_process(false)
+	emit_signal("gameover", round(score))
+	
 	
 func _on_B_RIGHT_button_up():
 	move(Vector2(1,0))
