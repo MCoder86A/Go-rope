@@ -18,6 +18,7 @@ var score: float = 0
 var scoreSpeed = 50
 var direction: Vector2 = Vector2(1,0)
 var can_add_new_rope: bool = true
+var current_rope_direction: Vector2
 var active_rope: Line2D
 var active_rope_direction: Vector2
 var active_rope_start_pt: Vector2
@@ -42,7 +43,7 @@ func _ready():
 	set_bg_size()
 	path = get_node(path_p)
 	timer = get_node(timer_p)
-	scorelbl = get_node(UI_p).get_node("scores/grid/number")
+	scorelbl = get_node(UI_p).get_node("Score/noOfStar")
 	Rope_add(Vector2(position.x-50, position.y), direction)
 	rng.randomize()
 	timer.start(2)
@@ -64,7 +65,7 @@ func main_control_signal(request):
 			direction = Vector2.RIGHT
 			Rope_add(Vector2(position.x-50, position.y), direction)
 			speed = 200
-			get_node(UI_p).get_node("scores").show()
+			get_node(UI_p).get_node("Score/noOfGold").show()
 			timer.start(2)
 			score = 0
 		"saveMe":
@@ -72,12 +73,12 @@ func main_control_signal(request):
 			set_physics_process(true)
 			position = active_rope_start_pt
 			direction = active_rope_direction
+			current_rope_direction = active_rope_direction
 			active_rope.is_started = true
 			can_add_new_rope = true
 			timer.start(2)
 			
-			
-			
+
 func set_bg_size():
 	var bg_layer: ParallaxLayer = get_tree().get_root().get_node("/root/Main/BG/L1")
 	var sprite: Sprite = bg_layer.get_node("Sprite")
@@ -94,7 +95,8 @@ func is_legal_move(new_move: Vector2):
 		return true
 	
 func move(new_move: Vector2):
-	if is_legal_move(new_move):
+	var ballToRopeDeg = round(rad2deg(new_move.angle_to(current_rope_direction)))
+	if is_legal_move(new_move) and abs(ballToRopeDeg)==90 :
 		direction = new_move
 
 	
@@ -118,6 +120,7 @@ func level_up(new_speed):
 	speed = new_speed
 
 func on_rope_started():
+	current_rope_direction = active_rope_direction
 	can_add_new_rope = true
 	correct_position()
 	if pos_correction_fin:

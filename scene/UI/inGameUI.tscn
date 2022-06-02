@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://asset/texture/info.png" type="Texture" id=1]
 [ext_resource path="res://scene/UI/src/UI.gd" type="Script" id=2]
@@ -10,77 +10,33 @@
 [ext_resource path="res://asset/texture/gameOver/Window.png" type="Texture" id=8]
 [ext_resource path="res://asset/texture/gameOver/Replay.png" type="Texture" id=9]
 [ext_resource path="res://ScoreFont.tres" type="DynamicFont" id=10]
+[ext_resource path="res://scene/UI/UIgameOverOpen.tres" type="Animation" id=11]
 
 [node name="inGameUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2.25989
-margin_top = 4.77975
-margin_right = 2.25977
-margin_bottom = 4.77979
+margin_top = 3.0
+margin_bottom = 3.0
+rect_pivot_offset = Vector2( 512, 300 )
 script = ExtResource( 2 )
-
-[node name="GameOver" type="TextureRect" parent="."]
-visible = false
-anchor_left = 0.168506
-anchor_top = 0.171037
-anchor_right = 0.830615
-anchor_bottom = 0.817704
-texture = ExtResource( 8 )
-expand = true
-stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="replay" type="TextureButton" parent="GameOver"]
-anchor_left = 0.591
-anchor_top = 0.356
-anchor_right = 0.861
-anchor_bottom = 0.492
-margin_left = -0.697968
-margin_top = 15.872
-margin_right = 0.242004
-margin_bottom = 15.104
-texture_normal = ExtResource( 9 )
+[node name="GameOver" type="TextureRect" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -231.0
+margin_right = 384.0
+margin_bottom = 214.0
+rect_pivot_offset = Vector2( 392, 222.5 )
+texture = ExtResource( 8 )
 expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="saveMe" type="TextureButton" parent="GameOver"]
-anchor_left = 0.592
-anchor_top = 0.519
-anchor_right = 0.861
-anchor_bottom = 0.652
-margin_left = -0.375977
-margin_top = 14.628
-margin_right = 0.242004
-margin_bottom = 15.024
-texture_normal = ExtResource( 3 )
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="score" type="Label" parent="GameOver"]
-anchor_left = 0.023
-anchor_top = 0.359
-anchor_right = 0.556
-anchor_bottom = 0.703
-margin_left = -0.323767
-margin_top = -0.0100861
-margin_right = -0.301086
-margin_bottom = -0.169189
-size_flags_stretch_ratio = 0.0
-custom_colors/font_color = Color( 1, 0.811765, 0.588235, 1 )
-custom_fonts/font = ExtResource( 10 )
-text = "1220"
-align = 1
-valign = 1
-autowrap = true
+stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -101,21 +57,59 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="TextureRect" type="TextureRect" parent="GameOver"]
-anchor_left = 0.59
-anchor_top = 0.0956358
-anchor_right = 0.861
-anchor_bottom = 0.317
-margin_left = -0.0199585
-margin_top = 14.8933
-margin_right = 0.242004
-margin_bottom = 15.004
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
+[node name="score" type="Label" parent="GameOver"]
+anchor_left = 0.0306122
+anchor_top = 0.449438
+anchor_right = 0.571429
+anchor_bottom = 0.748315
+size_flags_stretch_ratio = 0.0
+custom_colors/font_color = Color( 0.203922, 0.780392, 0.956863, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "1220"
+align = 1
+valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="replay" type="TextureButton" parent="GameOver"]
+anchor_left = 0.6625
+anchor_top = 0.425533
+anchor_right = 0.8875
+anchor_bottom = 0.531916
+margin_left = -55.4
+margin_top = -13.362
+margin_right = 0.200012
+margin_bottom = 4.2975
+texture_normal = ExtResource( 9 )
+expand = true
+stretch_mode = 5
+
+[node name="saveMe" type="TextureButton" parent="GameOver"]
+anchor_left = 0.591837
+anchor_top = 0.557303
+anchor_right = 0.887755
+anchor_bottom = 0.719101
+margin_top = 5.99997
+margin_bottom = 6.0
+texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="GameOver"]
+anchor_left = 0.612245
+anchor_top = 0.107865
+anchor_right = 0.866071
+anchor_bottom = 0.370787
+margin_top = -8.0
+margin_bottom = -8.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
 
 [node name="Tutorial" type="TextureRect" parent="."]
 visible = false
@@ -166,6 +160,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Animator" type="AnimationPlayer" parent="."]
+anims/UIgameOverOpen = ExtResource( 11 )
+
+[connection signal="resized" from="GameOver" to="." method="_on_GameOver_resized"]
 [connection signal="visibility_changed" from="GameOver" to="." method="_on_GameOver_visibility_changed"]
 [connection signal="button_down" from="GameOver/replay" to="." method="_on_replay_button_down"]
 [connection signal="button_down" from="GameOver/saveMe" to="." method="_on_saveMe_button_down"]
