@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
 [ext_resource path="res://asset/texture/k_ro_F2C.jpeg" type="Texture" id=3]
 [ext_resource path="res://scene/UI/inGameUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://asset/texture/Star.png" type="Texture" id=5]
+[ext_resource path="res://scene/UI/src/BG_parallax.gd" type="Script" id=6]
 [ext_resource path="res://asset/texture/Coins.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFontData" id=1]
@@ -15,14 +16,11 @@ size = 30
 font_data = SubResource( 1 )
 
 [node name="Main" type="Node2D"]
-__meta__ = {
-"_edit_horizontal_guides_": [  ]
-}
 
 [node name="Path" type="Node2D" parent="."]
 
 [node name="Ball" parent="." instance=ExtResource( 2 )]
-position = Vector2( 412.739, 242.952 )
+position = Vector2( 412, 242 )
 script = ExtResource( 1 )
 path_p = NodePath("../Path")
 timer_p = NodePath("../BallTimer")
@@ -38,6 +36,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
+pause_mode = 2
 
 [node name="inGameUI" parent="UI" instance=ExtResource( 4 )]
 
@@ -120,14 +119,14 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="BG" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource( 6 )
 
-[node name="L1" type="ParallaxLayer" parent="BG"]
-motion_mirroring = Vector2( 1024, 512 )
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 2048, 1200 )
 
-[node name="Sprite" type="Sprite" parent="BG/L1"]
-scale = Vector2( 1, 1.17188 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 512, 300 )
 texture = ExtResource( 3 )
-centered = false
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]

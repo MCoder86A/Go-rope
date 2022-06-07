@@ -8,6 +8,63 @@
 
 config_version=4
 
+[admob]
+
+config={
+"banner": {
+"position": 0,
+"show_instantly": true,
+"size": "MEDIUM_RECTANGLE",
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/6300978111"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/2934735716"
+}
+}
+},
+"debug": {
+"is_test_europe_user_consent": false
+},
+"general": {
+"is_enabled": true,
+"is_for_child_directed_treatment": false,
+"max_ad_content_rating": "G"
+},
+"interstitial": {
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/1033173712"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/4411468910"
+}
+}
+},
+"rewarded": {
+"unit_ids": {
+"Android": {
+"GetCoin": "ca-app-pub-1709759440668099/1290441840",
+"standard": "ca-app-pub-3940256099942544/5224354917"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/1712485313"
+}
+}
+},
+"rewarded_interstitial": {
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/5354046379"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/6978759866"
+}
+}
+}
+}
+
 [application]
 
 config/name="Go rope"
@@ -16,15 +73,25 @@ boot_splash/image="res://asset/texture/splash.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
 
+[autoload]
+
+MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
+
 [display]
 
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/admob/plugin.cfg" )
+
 [global]
 
 fps=false
 expor=false
+log=false
+ec2=false
 
 [importer_defaults]
 

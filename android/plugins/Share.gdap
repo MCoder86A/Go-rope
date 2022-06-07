@@ -1,0 +1,11 @@
+[config]
+
+name="Share"
+binary_type="local"
+binary="Share-debug.aar"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=[]

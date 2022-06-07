@@ -15,6 +15,8 @@ var Ball: KinematicBody2D
 var Ball_rect: Rect2
 var Rope_rect: Rect2
 var can_extend = true
+var _emitter : Array
+var fire_res : Resource
 
 func _ready():
 	Ball = get_node("/root/Main/Ball")
@@ -25,7 +27,8 @@ func _ready():
 	var ball: KinematicBody2D = get_node("/root/Main/Ball")
 	last_ball_position = ball.position
 	set_ball_rope_rect()
-
+	
+	fire_res = preload("res://ropeDes_partE.tscn")
 
 
 func set_ball_rope_rect():
@@ -102,20 +105,34 @@ func set_rope_state():
 		is_started = true
 		emit_signal("started")
 	is_rope_active = true
-	
+
 func on_Extend_rope(new_position: Vector2):
 	update_ball_rope_rect()
 	if not Ball_rect.intersects(Rope_rect) and is_started == true and is_rope_active == true:
 		is_rope_active = false
+		
+		for i in range(2):
+			var em = fire_res.instance()
+			add_child(em)
+			_emitter.append(em)
+			#Emitter is instantiated in local scope and
+			#started the emittion due to a bug that arise
+			#in emulator tested in android 10, android 5 and android 9 phy phone
+			#The bug crash the game when emiter object is outside the local
+			#scope and started emmition here.
+			
+			#NOTE:This bug happens only when used with poing
+			#studio adMob (shin-nil admob not tested)
+			
+			
 		emit_signal("being_destroy")
-		$fire_point1.emitting = true
-		$fire_point2.emitting = true
 	
 	delta_ball_position += new_position-last_ball_position
 	delta_ball_position = Vector2(abs(delta_ball_position.x), abs(delta_ball_position.y))
 	last_ball_position = new_position
 	var first_point: Vector2 = points[0]
 	var last_point: Vector2 = points[points.size()-1]
+	
 	if delta_ball_position.length()>=1 and is_rope_active and is_started and can_extend:
 		var second_pt = last_point+heading_toward*delta_ball_position
 		set_rope_position(first_point, second_pt)
@@ -131,10 +148,13 @@ func set_rope_position(first_pt_vec: Vector2, second_pt_vec: Vector2):
 	var first_point: Vector2 = points[0]
 	set_point_position(0, first_pt_vec)
 	set_point_position(1, second_pt_vec)
-	$fire_point1.position = first_point
-	$fire_point1.direction = -heading_toward
-	$fire_point2.position = second_pt_vec
-	$fire_point2.direction = heading_toward
+	
+	if(_emitter.size()==2):
+		_emitter[0].get_node("fire_point").position = first_point
+		_emitter[0].get_node("fire_point").direction = -heading_toward
+		_emitter[1].get_node("fire_point").position = second_pt_vec
+		_emitter[1].get_node("fire_point").direction = heading_toward
+	
 	var delta_first_point: Vector2 = points[0]-first_point
 	uvx += fmod(delta_first_point.length()/width, 1)
 	material.set_shader_param("x_axis", uvx)

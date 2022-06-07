@@ -40,7 +40,7 @@ func drawLine(Rope: Line2D, firstPoint: Vector2, secondPoint: Vector2):
 		Rope.add_point(firstPoint.move_toward(secondPoint, 50))
 
 func _ready():
-	set_bg_size()
+#	set_bg_size()
 	path = get_node(path_p)
 	timer = get_node(timer_p)
 	scorelbl = get_node(UI_p).get_node("Score/noOfStar")
@@ -79,15 +79,16 @@ func main_control_signal(request):
 			timer.start(2)
 			
 
-func set_bg_size():
-	var bg_layer: ParallaxLayer = get_tree().get_root().get_node("/root/Main/BG/L1")
-	var sprite: Sprite = bg_layer.get_node("Sprite")
-	var win_size = OS.window_size
-	var w = sprite.texture.get_width()
-	var h = sprite.texture.get_height()
-	var scale = max(win_size.x/w, win_size.y/h)
-	bg_layer.motion_mirroring = Vector2(w*scale, h*scale)
-	sprite.scale = Vector2.ONE*scale
+#func set_bg_size():
+#	var bg_layer: ParallaxLayer = get_tree().get_root().get_node("/root/Main/BG/L1")
+#	var sprite: Sprite = bg_layer.get_node("Sprite")
+#	var win_size = OS.window_size
+#	var w = sprite.texture.get_width()
+#	var h = sprite.texture.get_height()
+#	var scale = max(win_size.x/w, win_size.y/h)
+#	bg_layer.motion_mirroring = Vector2(w*scale, h*scale)
+#	sprite.scale = Vector2.ONE*scale
+
 
 func is_legal_move(new_move: Vector2):
 	var angle = round(direction.angle_to(new_move)*180/PI)
@@ -110,9 +111,7 @@ func _physics_process(delta):
 	
 	score += delta*scoreSpeed
 	scorelbl.text = String(round(score))
-	
 	emit_signal("Extend_rope", position)
-	
 	if not pos_correction_fin:
 		correct_position()
 
@@ -208,8 +207,8 @@ func Rope_add(start_pt: Vector2, to_direction: Vector2):
 	emit_signal("set_rope_state")
 	emit_signal("on_rope_add", Rope.name)
 
-func game_over(path: Node):
-	for i in  path.get_children():
+func game_over(_path: Node):
+	for i in  _path.get_children():
 		i.free()
 	
 # Rope emits destroying signal when ball leave it
@@ -263,12 +262,12 @@ func _calculate_swipe(swipe_end):
 			move(Vector2(0,-1))
 
 
-func _on_inGameUI_item_rect_changed():
-	var rect = get_viewport_rect()
-	var rguide = get_node("/root/Main/UI/inGameUI/r_guide")
-	if rect.size.x <= rect.size.y:
-		rguide.show()
-	else:
-		rguide.hide()
-
-	set_bg_size()
+#func _on_inGameUI_item_rect_changed():
+#	var rect = get_viewport_rect()
+#	var rguide = get_node("/root/Main/UI/inGameUI/r_guide")
+#	if rect.size.x <= rect.size.y:
+#		rguide.show()
+#	else:
+#		rguide.hide()
+#
+#	set_bg_size()
