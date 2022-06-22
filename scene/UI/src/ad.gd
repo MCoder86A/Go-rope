@@ -5,7 +5,7 @@ signal _on_ad_closed()
 signal _on_ad_loaded()
 
 
-var ad_Unit_name : String = "standard"
+var ad_Unit_name : String = "GetCoin"
 
 func _ready():
 	if OS.get_name() == "Android":

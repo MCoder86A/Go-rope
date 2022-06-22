@@ -13,7 +13,8 @@ export var UI_p: NodePath
 export var rope_width: float
 
 #Game state
-var speed: float = 300
+var speed: float = 430
+var gold: float = 0
 var score: float = 0
 var scoreSpeed = 50
 var direction: Vector2 = Vector2(1,0)
@@ -26,11 +27,18 @@ var active_rope_end_pt: Vector2
 var pos_correction_fin: bool
 var swipe_start = null
 var minimum_drag = 25
+var game_start_time: int
+var game_elapsed_time: int
+var rope_no = 0
+var speed_x_factor: float
+var db_name: String = "score_dbv1.2"
+var n_speed: float
 
 # Resources
 var path: Node2D
 var timer: Timer
 var scorelbl: Label
+var goldlbl: Label
 var res_Rope = load("res://scene/Rope.tscn")
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -40,10 +48,22 @@ func drawLine(Rope: Line2D, firstPoint: Vector2, secondPoint: Vector2):
 		Rope.add_point(firstPoint.move_toward(secondPoint, 50))
 
 func _ready():
-#	set_bg_size()
 	path = get_node(path_p)
 	timer = get_node(timer_p)
 	scorelbl = get_node(UI_p).get_node("Score/noOfStar")
+	goldlbl = get_node(UI_p).get_node("Score/noOfGold")
+	
+	if not GameDb._is_db_exist(db_name):
+		GameDb._create_db(db_name,
+		'{'+
+			'"MAX_SCORE": 0,'+
+			'"LAST_SCORE": 0,'+
+			'"GOLD": 0'+
+		'}')
+	GameDb._open_db(db_name)
+	gold = GameDb._get_db(db_name)["GOLD"]
+	goldlbl.text = String(round(gold))
+	
 	Rope_add(Vector2(position.x-50, position.y), direction)
 	rng.randomize()
 	timer.start(2)
@@ -59,16 +79,21 @@ func _ready():
 func main_control_signal(request):
 	match request:
 		"replay":
+			game_start_time = OS.get_ticks_msec()
+			rope_no = 0
 			var n = get_node("/root/Main/Path")
 			game_over(n)
 			set_physics_process(true)	
 			direction = Vector2.RIGHT
 			Rope_add(Vector2(position.x-50, position.y), direction)
-			speed = 200
+			speed = 300
 			get_node(UI_p).get_node("Score/noOfGold").show()
 			timer.start(2)
 			score = 0
+			speed_x_factor = 0
 		"saveMe":
+			game_start_time = OS.get_ticks_msec()
+			rope_no = 0
 			_on_BallTimer_timeout()
 			set_physics_process(true)
 			position = active_rope_start_pt
@@ -77,17 +102,10 @@ func main_control_signal(request):
 			active_rope.is_started = true
 			can_add_new_rope = true
 			timer.start(2)
+		"take_gold":
+			gold = GameDb._get_db(db_name)["GOLD"]
+			goldlbl.text = String(round(gold))
 			
-
-#func set_bg_size():
-#	var bg_layer: ParallaxLayer = get_tree().get_root().get_node("/root/Main/BG/L1")
-#	var sprite: Sprite = bg_layer.get_node("Sprite")
-#	var win_size = OS.window_size
-#	var w = sprite.texture.get_width()
-#	var h = sprite.texture.get_height()
-#	var scale = max(win_size.x/w, win_size.y/h)
-#	bg_layer.motion_mirroring = Vector2(w*scale, h*scale)
-#	sprite.scale = Vector2.ONE*scale
 
 
 func is_legal_move(new_move: Vector2):
@@ -96,16 +114,19 @@ func is_legal_move(new_move: Vector2):
 		return true
 	
 func move(new_move: Vector2):
-	var ballToRopeDeg = round(rad2deg(new_move.angle_to(current_rope_direction)))
+	var ballToRopeDeg = round(rad2deg(
+		new_move.angle_to(current_rope_direction))
+		)
 	if is_legal_move(new_move) and abs(ballToRopeDeg)==90 :
 		direction = new_move
 
-	
 func _physics_process(delta):
 	if Input.get_action_strength("wasd"):
 		var new_move: Vector2
-		new_move.x = Input.get_action_strength("right")-Input.get_action_strength("left")
-		new_move.y = Input.get_action_strength("down")-Input.get_action_strength("up")
+		new_move.x = Input.get_action_strength("right")-\
+			Input.get_action_strength("left")
+		new_move.y = Input.get_action_strength("down")-\
+			Input.get_action_strength("up")
 		move(new_move)
 	position+=direction*speed*delta
 	
@@ -114,17 +135,48 @@ func _physics_process(delta):
 	emit_signal("Extend_rope", position)
 	if not pos_correction_fin:
 		correct_position()
-
+	
+	#	"speed_x_factor" is the input that determine the output of ball
+	#	speed function
+	#	NOTE - multiplying a constant with it will result in quickly speeding
+	#	up of ball speed
+	speed_x_factor = speed_x_factor+delta
+	
+	if speed_x_factor < 100:
+		n_speed = (1.0/100)*pow(speed_x_factor,2) + 300
+	elif speed_x_factor < 632.655:
+		n_speed = 2*sqrt(speed_x_factor) + 380
+	else:
+		n_speed = log(speed_x_factor)/log(2) + 421
+		
+	level_up(n_speed)
+	
+	
 func level_up(new_speed):
 	speed = new_speed
 
 func on_rope_started():
+	rope_no = rope_no+1
+	if rope_no == 1:
+		game_start_time = OS.get_ticks_msec()
+	
+	game_elapsed_time = (OS.get_ticks_msec() - game_start_time)/1e3
+	
+	if n_speed < 400 and rope_no > 1:
+		gold += pow(n_speed/300.0, 4)
+	elif n_speed < 430 and rope_no > 1:
+		gold += pow(n_speed/300.0, 6)
+	elif rope_no > 1:
+		gold += pow(n_speed/300.0, 7)
+
+	goldlbl.text = String(round(gold))
+	GameDb._update(db_name, "GOLD", round(gold))
+	
 	current_rope_direction = active_rope_direction
 	can_add_new_rope = true
 	correct_position()
 	if pos_correction_fin:
 		pos_correction_fin = false
-		
 	
 	
 var target_pt: Vector2
@@ -142,9 +194,12 @@ func correct_position():
 func _on_BallTimer_timeout():
 	var rn = rng.randf_range(1,3)
 	if can_add_new_rope:
-		var unmodify_start_pt: Vector2 = calculate_unmStart_pt()+active_rope_direction*100
+		var unmodify_start_pt: Vector2 = calculate_unmStart_pt()\
+			+ active_rope_direction*100
 		var new_direction = calculate_new_rope_dir()
-		var start_pt: Vector2 = calculate_rope_first_pt(unmodify_start_pt, new_direction)
+		var start_pt: Vector2 = calculate_rope_first_pt(
+			unmodify_start_pt,
+			new_direction)
 		Rope_add(start_pt, new_direction)
 	timer.start(rn)
 
@@ -182,7 +237,8 @@ func calculate_unmStart_pt():
 		
 	return Vector2(new_x, new_y)
 	
-func calculate_rope_first_pt(start_pt: Vector2, new_direction: Vector2):
+func calculate_rope_first_pt(start_pt: Vector2,
+		new_direction: Vector2):
 	return start_pt+new_direction*rope_width/2
 	
 func Rope_add(start_pt: Vector2, to_direction: Vector2):

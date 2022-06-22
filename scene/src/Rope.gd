@@ -35,7 +35,8 @@ func set_ball_rope_rect():
 	var Ball_texture: Sprite = Ball.get_node("Ball")
 	var width = Ball_texture.texture.get_width()
 	var height = Ball_texture.texture.get_height()
-	var ball_position = Vector2(Ball.position.x-width/2, Ball.position.y-height/2)
+	var ball_position = Vector2(Ball.position.x-width/2, 
+		Ball.position.y-height/2)
 	Ball_rect = Rect2(Vector2(ball_position), Vector2(width, height))
 
 func get_rope_size():
@@ -108,7 +109,8 @@ func set_rope_state():
 
 func on_Extend_rope(new_position: Vector2):
 	update_ball_rope_rect()
-	if not Ball_rect.intersects(Rope_rect) and is_started == true and is_rope_active == true:
+	if not Ball_rect.intersects(Rope_rect) and\
+			is_started == true and is_rope_active == true:
 		is_rope_active = false
 		
 		for i in range(2):
@@ -117,9 +119,9 @@ func on_Extend_rope(new_position: Vector2):
 			_emitter.append(em)
 			#Emitter is instantiated in local scope and
 			#started the emittion due to a bug that arise
-			#in emulator tested in android 10, android 5 and android 9 phy phone
-			#The bug crash the game when emiter object is outside the local
-			#scope and started emmition here.
+			#in emulator tested in android 10, android 5 and android 9 phy
+			#phone The bug crash the game when emiter object is outside the
+			#local scope and started emmition here.
 			
 			#NOTE:This bug happens only when used with poing
 			#studio adMob (shin-nil admob not tested)
@@ -128,12 +130,14 @@ func on_Extend_rope(new_position: Vector2):
 		emit_signal("being_destroy")
 	
 	delta_ball_position += new_position-last_ball_position
-	delta_ball_position = Vector2(abs(delta_ball_position.x), abs(delta_ball_position.y))
+	delta_ball_position = Vector2(abs(delta_ball_position.x),
+		abs(delta_ball_position.y))
 	last_ball_position = new_position
 	var first_point: Vector2 = points[0]
 	var last_point: Vector2 = points[points.size()-1]
 	
-	if delta_ball_position.length()>=1 and is_rope_active and is_started and can_extend:
+	if delta_ball_position.length()>=1 and is_rope_active\
+			and is_started and can_extend:
 		var second_pt = last_point+heading_toward*delta_ball_position
 		set_rope_position(first_point, second_pt)
 		delta_ball_position = Vector2.ZERO

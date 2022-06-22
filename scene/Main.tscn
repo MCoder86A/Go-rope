@@ -39,12 +39,14 @@ one_shot = true
 pause_mode = 2
 
 [node name="inGameUI" parent="UI" instance=ExtResource( 4 )]
+margin_top = 0.0
+margin_bottom = 0.0
 
 [node name="Score" type="HBoxContainer" parent="UI"]
-anchor_left = 0.507812
+anchor_left = 0.492188
 anchor_top = 0.0266667
 anchor_right = 0.984375
-anchor_bottom = 0.0933333
+anchor_bottom = 0.1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -52,62 +54,61 @@ __meta__ = {
 }
 
 [node name="noOfStar" type="Label" parent="UI/Score"]
-margin_right = 257.0
-margin_bottom = 39.0
+margin_right = 265.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/font_color = Color( 0.44043, 0.966824, 1, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "1500"
 align = 2
-valign = 1
+valign = 2
 clip_text = true
 
 [node name="Gap" type="MarginContainer" parent="UI/Score"]
-margin_left = 261.0
-margin_right = 263.0
-margin_bottom = 39.0
+margin_left = 269.0
+margin_right = 272.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.01
 
 [node name="Star" type="TextureRect" parent="UI/Score"]
-margin_left = 267.0
-margin_right = 319.0
-margin_bottom = 39.0
+margin_left = 276.0
+margin_right = 329.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="noOfGold" type="Label" parent="UI/Score"]
-margin_left = 323.0
-margin_right = 425.0
-margin_bottom = 39.0
+margin_left = 333.0
+margin_right = 439.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
 custom_colors/font_color = Color( 0.933594, 0.881626, 0.400242, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "1500"
+text = "50"
 align = 2
 valign = 1
 clip_text = true
 
 [node name="Gap2" type="MarginContainer" parent="UI/Score"]
-margin_left = 429.0
-margin_right = 432.0
-margin_bottom = 39.0
+margin_left = 443.0
+margin_right = 445.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.01
 
 [node name="goldTexture" type="TextureRect" parent="UI/Score"]
-margin_left = 436.0
-margin_right = 488.0
-margin_bottom = 39.0
+margin_left = 449.0
+margin_right = 503.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
@@ -124,9 +125,15 @@ script = ExtResource( 6 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_mirroring = Vector2( 2048, 1200 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2( 512, 300 )
 texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]

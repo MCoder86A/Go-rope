@@ -76,6 +76,7 @@ config/icon="res://icon.png"
 [autoload]
 
 MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
+GameDb="*res://utils/Game_db.gd"
 
 [display]
 

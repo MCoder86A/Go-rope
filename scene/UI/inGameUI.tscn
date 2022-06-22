@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://asset/texture/info.png" type="Texture" id=1]
 [ext_resource path="res://scene/UI/src/UI.gd" type="Script" id=2]
@@ -12,6 +12,112 @@
 [ext_resource path="res://ScoreFont.tres" type="DynamicFont" id=10]
 [ext_resource path="res://scene/UI/UIgameOverOpen.tres" type="Animation" id=11]
 [ext_resource path="res://asset/texture/gameOver/save_me_icon.png" type="Texture" id=12]
+[ext_resource path="res://asset/texture/gameOver/dialog/Ad_bg.png" type="Texture" id=13]
+[ext_resource path="res://asset/texture/gameOver/dialog/Coin_bg.png" type="Texture" id=14]
+[ext_resource path="res://asset/texture/gameOver/dialog/Dialog.png" type="Texture" id=15]
+[ext_resource path="res://asset/texture/gameOver/dialog/close.png" type="Texture" id=16]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver/saveMe:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 432, 248 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GameOver/replay:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 440, 187 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "close_save_dialog"
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver/Dialog:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.0441943, 0.0743255 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GameOver/Dialog:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "low_coins"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver/Dialog/low_coins:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false, true ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "on_save_me"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver/Dialog:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 0.554788, 0.0738306, 0.0625003 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "showing_ad"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver/Dialog/Ad/icon:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
 
 [node name="inGameUI" type="Control"]
 anchor_right = 1.0
@@ -25,6 +131,7 @@ __meta__ = {
 }
 
 [node name="GameOver" type="TextureRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -33,7 +140,6 @@ margin_left = -400.0
 margin_top = -231.0
 margin_right = 384.0
 margin_bottom = 214.0
-rect_scale = Vector2( 0.848, 0.861 )
 rect_pivot_offset = Vector2( 392, 222.5 )
 texture = ExtResource( 8 )
 expand = true
@@ -75,30 +181,27 @@ __meta__ = {
 }
 
 [node name="replay" type="TextureButton" parent="GameOver"]
-anchor_left = 0.716
-anchor_top = 0.486
-anchor_right = 0.716
-anchor_bottom = 0.486
-margin_left = -116.278
-margin_top = -32.6782
-margin_right = 115.722
-margin_bottom = 32.3218
+anchor_left = 0.699
+anchor_top = 0.503
+anchor_right = 0.699
+anchor_bottom = 0.503
+margin_left = -108.016
+margin_top = -36.835
+margin_right = 123.984
+margin_bottom = 28.165
 texture_normal = ExtResource( 9 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="saveMe" type="TextureButton" parent="GameOver"]
-anchor_left = 0.716
-anchor_top = 0.65
-anchor_right = 0.716
-anchor_bottom = 0.655
-margin_left = -116.278
-margin_top = -33.649
-margin_right = 115.722
-margin_bottom = 36.1261
+anchor_left = 0.708204
+anchor_top = 0.656
+anchor_right = 0.708204
+anchor_bottom = 0.656
+margin_left = -123.232
+margin_top = -43.92
+margin_right = 108.768
+margin_bottom = 28.08
 texture_normal = ExtResource( 3 )
 expand = true
 stretch_mode = 5
@@ -106,35 +209,143 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="save_me_icon" type="TextureRect" parent="GameOver/saveMe"]
-anchor_left = 0.612245
-anchor_top = 0.107865
-anchor_right = 0.866071
-anchor_bottom = 0.370787
-margin_left = -126.041
-margin_top = 2.23371
-margin_right = -152.928
-margin_bottom = 15.3033
-texture = ExtResource( 12 )
-expand = true
-stretch_mode = 6
-
 [node name="TextureRect" type="TextureRect" parent="GameOver"]
-anchor_left = 0.713008
-anchor_top = 0.233
-anchor_right = 0.713008
-anchor_bottom = 0.233
-margin_left = -79.7343
-margin_top = -46.6902
-margin_right = 119.265
-margin_bottom = 70.3101
-rect_scale = Vector2( 0.8, 0.8 )
+anchor_left = 0.697622
+anchor_top = 0.274472
+anchor_right = 0.697622
+anchor_bottom = 0.274472
+margin_left = -99.6718
+margin_top = -59.1452
+margin_right = 99.3278
+margin_bottom = 57.8551
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="Dialog" type="TextureRect" parent="GameOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.521
+anchor_right = 0.5
+anchor_bottom = 0.521
+margin_left = -296.0
+margin_top = -175.845
+margin_right = 296.0
+margin_bottom = 144.155
+rect_pivot_offset = Vector2( 296, 160 )
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="Ad" type="TextureButton" parent="GameOver/Dialog"]
+anchor_left = 0.676
+anchor_top = 0.548
+anchor_right = 0.684
+anchor_bottom = 0.548
+margin_left = -80.1935
+margin_top = -55.3603
+margin_right = 83.0706
+margin_bottom = 56.6397
+texture_normal = ExtResource( 13 )
+expand = true
+stretch_mode = 5
+
+[node name="icon" type="TextureRect" parent="GameOver/Dialog/Ad"]
+visible = false
+anchor_left = 0.357
+anchor_top = 0.866
+anchor_right = 0.357
+anchor_bottom = 0.866
+margin_left = -11.9746
+margin_top = -8.99171
+margin_right = 12.0254
+margin_bottom = 9.00829
+rect_pivot_offset = Vector2( 12, 9 )
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+
+[node name="coin" type="TextureButton" parent="GameOver/Dialog"]
+anchor_left = 0.316
+anchor_top = 0.548
+anchor_right = 0.316
+anchor_bottom = 0.548
+margin_left = -83.0716
+margin_top = -55.3603
+margin_right = 90.9284
+margin_bottom = 56.6397
+texture_normal = ExtResource( 14 )
+expand = true
+stretch_mode = 5
+
+[node name="survive_using" type="Label" parent="GameOver/Dialog"]
+anchor_left = 0.105
+anchor_top = 0.106905
+anchor_right = 0.895
+anchor_bottom = 0.297905
+margin_left = 0.079998
+margin_top = 0.039999
+margin_right = -0.0800171
+margin_bottom = -0.0480042
+grow_horizontal = 2
+custom_colors/font_color = Color( 0.588235, 1, 0.905882, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "Survive using"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="low_coins" type="Label" parent="GameOver/Dialog"]
+visible = false
+anchor_left = 0.0786842
+anchor_top = 0.737857
+anchor_right = 0.921316
+anchor_bottom = 0.928857
+margin_left = 0.079998
+margin_top = 0.039999
+margin_right = -0.0800171
+margin_bottom = -0.0480042
+grow_horizontal = 2
+custom_colors/font_color = Color( 0.862745, 0.976471, 0.0509804, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "Low coins"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="close_dialog" type="TextureButton" parent="GameOver/Dialog"]
+anchor_left = 0.953
+anchor_top = 0.107
+anchor_right = 0.953
+anchor_bottom = 0.107
+margin_left = -36.176
+margin_top = -34.24
+margin_right = 35.824
+margin_bottom = 29.76
+expand = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="GameOver/Dialog/close_dialog"]
+anchor_left = 0.5
+anchor_top = 0.518
+anchor_right = 0.514
+anchor_bottom = 0.518
+margin_left = -15.6
+margin_top = -16.526
+margin_right = 16.504
+margin_bottom = 16.474
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 6
 
 [node name="Tutorial" type="TextureRect" parent="."]
 visible = false
@@ -186,11 +397,20 @@ __meta__ = {
 }
 
 [node name="Animator" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
 anims/UIgameOverOpen = ExtResource( 11 )
+anims/close_save_dialog = SubResource( 5 )
+anims/low_coins = SubResource( 3 )
+anims/on_save_me = SubResource( 2 )
+anims/showing_ad = SubResource( 4 )
 
 [connection signal="resized" from="GameOver" to="." method="_on_GameOver_resized"]
 [connection signal="visibility_changed" from="GameOver" to="." method="_on_GameOver_visibility_changed"]
 [connection signal="button_down" from="GameOver/replay" to="." method="_on_replay_button_down"]
 [connection signal="button_down" from="GameOver/saveMe" to="." method="_on_saveMe_button_down"]
+[connection signal="visibility_changed" from="GameOver/Dialog" to="." method="_on_Dialog_visibility_changed"]
+[connection signal="pressed" from="GameOver/Dialog/Ad" to="." method="_on_Ad_pressed"]
+[connection signal="pressed" from="GameOver/Dialog/coin" to="." method="_on_coin_pressed"]
+[connection signal="pressed" from="GameOver/Dialog/close_dialog" to="." method="_on_close_dialog_pressed"]
 [connection signal="button_down" from="Info" to="." method="_on_Info_button_down"]
 [connection signal="button_down" from="Cross" to="." method="_on_Cross_button_down"]
