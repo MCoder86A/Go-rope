@@ -9,7 +9,7 @@ func _ready():
 
 
 func _on_play_button_down():
-	get_tree().change_scene("res://scene/Main.tscn")
+	get_tree().change_scene("res://Game/Market/market.tscn")
 
 
 func _on_dashboard_resized():

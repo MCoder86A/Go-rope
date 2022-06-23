@@ -32,9 +32,18 @@ func _ready():
 
 
 func set_ball_rope_rect():
-	var Ball_texture: Sprite = Ball.get_node("Ball")
-	var width = Ball_texture.texture.get_width()
-	var height = Ball_texture.texture.get_height()
+	var Ball_texture: AnimatedSprite = Ball.get_node("Ball")
+#	var width = Ball_texture.get_sprite_frames().get_frame(\
+#			"character1", 0).get_width()*0.15
+#	var height = Ball_texture.get_sprite_frames().get_frame(\
+#			"character1", 0).get_height()*0.15
+	
+#	Ball_texture.scale = Vector2.ONE
+#	Ball_texture.position = Vector2.ZERO
+	var height = width
+#	Ball_texture.play("character1")
+#	Ball_texture.set_rotation_degrees(90)
+	
 	var ball_position = Vector2(Ball.position.x-width/2, 
 		Ball.position.y-height/2)
 	Ball_rect = Rect2(Vector2(ball_position), Vector2(width, height))

@@ -4,5 +4,5 @@
 font_path = "res://asset/font/JosefinSans-Regular.ttf"
 
 [resource]
-size = 75
+size = 40
 font_data = SubResource( 1 )

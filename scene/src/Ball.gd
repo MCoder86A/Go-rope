@@ -31,7 +31,7 @@ var game_start_time: int
 var game_elapsed_time: int
 var rope_no = 0
 var speed_x_factor: float
-var db_name: String = "score_dbv1.2"
+var db_name: String = "score_dbv1.2.1"
 var n_speed: float
 
 # Resources
@@ -58,7 +58,8 @@ func _ready():
 		'{'+
 			'"MAX_SCORE": 0,'+
 			'"LAST_SCORE": 0,'+
-			'"GOLD": 0'+
+			'"GOLD": 0,'+
+			'"CHARACTER": 1'+
 		'}')
 	GameDb._open_db(db_name)
 	gold = GameDb._get_db(db_name)["GOLD"]
@@ -76,6 +77,16 @@ func _ready():
 		var rguide = get_node("/root/Main/UI/inGameUI/r_guide")
 		rguide.show()
 	
+	match int(GameDb._get_db(db_name)["CHARACTER"]):
+		1:
+			$Ball.play("ball")
+			$Ball.scale = Vector2.ONE
+			$Ball.position = Vector2.ZERO
+		2:
+			$Ball.play("character1")
+			$Ball.scale = Vector2(0.4, 0.4)
+			$Ball.position = Vector2(0, 8)
+
 func main_control_signal(request):
 	match request:
 		"replay":
@@ -102,6 +113,10 @@ func main_control_signal(request):
 			active_rope.is_started = true
 			can_add_new_rope = true
 			timer.start(2)
+			if $Ball.get_animation() != "ball":
+				$Ball.set_rotation_degrees(rad2deg(\
+					active_rope_direction.angle()))
+	
 		"take_gold":
 			gold = GameDb._get_db(db_name)["GOLD"]
 			goldlbl.text = String(round(gold))
@@ -119,6 +134,8 @@ func move(new_move: Vector2):
 		)
 	if is_legal_move(new_move) and abs(ballToRopeDeg)==90 :
 		direction = new_move
+		if $Ball.get_animation() != "ball":
+			$Ball.set_rotation_degrees(rad2deg(direction.angle()))
 
 func _physics_process(delta):
 	if Input.get_action_strength("wasd"):
