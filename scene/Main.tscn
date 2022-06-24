@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://asset/texture/Star.png" type="Texture" id=5]
 [ext_resource path="res://scene/UI/src/BG_parallax.gd" type="Script" id=6]
 [ext_resource path="res://asset/texture/Coins.png" type="Texture" id=7]
+[ext_resource path="res://asset/texture/Home_ico.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://asset/font/JosefinSans-Regular.ttf"
@@ -42,80 +43,127 @@ pause_mode = 2
 margin_top = 0.0
 margin_bottom = 0.0
 
-[node name="Score" type="HBoxContainer" parent="UI"]
-anchor_left = 0.492188
-anchor_top = 0.0266667
-anchor_right = 0.984375
-anchor_bottom = 0.1
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": true
-}
+[node name="HomeIco" type="TextureButton" parent="UI"]
+anchor_left = 0.031
+anchor_top = 0.067
+anchor_right = 0.031
+anchor_bottom = 0.067
+margin_left = -7.744
+margin_top = -8.2
+margin_right = 35.256
+margin_bottom = 31.8
+texture_normal = ExtResource( 8 )
+expand = true
+stretch_mode = 4
 
-[node name="noOfStar" type="Label" parent="UI/Score"]
-margin_right = 265.0
-margin_bottom = 44.0
+[node name="noOfStar" type="Label" parent="UI"]
+anchor_left = 0.75
+anchor_top = 0.058
+anchor_right = 0.75
+anchor_bottom = 0.058
+margin_left = -264.0
+margin_top = -17.8
+margin_right = -6.10352e-05
+margin_bottom = 18.2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/font_color = Color( 0.44043, 0.966824, 1, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "1500"
+text = "15000011414"
 align = 2
 valign = 2
 clip_text = true
 
-[node name="Gap" type="MarginContainer" parent="UI/Score"]
-margin_left = 269.0
-margin_right = 272.0
-margin_bottom = 44.0
+[node name="Gap" type="MarginContainer" parent="UI"]
+visible = false
+anchor_left = 0.754883
+anchor_top = 0.0266667
+anchor_right = 0.757813
+anchor_bottom = 0.1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.01
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="Star" type="TextureRect" parent="UI/Score"]
-margin_left = 276.0
-margin_right = 329.0
-margin_bottom = 44.0
+[node name="Star" type="TextureRect" parent="UI"]
+anchor_left = 0.788
+anchor_top = 0.067
+anchor_right = 0.788
+anchor_bottom = 0.067
+margin_left = -26.9116
+margin_top = -24.2
+margin_right = 26.0884
+margin_bottom = 19.8
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 5 )
-stretch_mode = 5
+expand = true
+stretch_mode = 6
 
-[node name="noOfGold" type="Label" parent="UI/Score"]
-margin_left = 333.0
-margin_right = 439.0
-margin_bottom = 44.0
+[node name="noOfGold" type="Label" parent="UI"]
+anchor_left = 0.921
+anchor_top = 0.063
+anchor_right = 0.921
+anchor_bottom = 0.063
+margin_left = -106.104
+margin_top = -21.8
+margin_right = -0.103577
+margin_bottom = 22.2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
 custom_colors/font_color = Color( 0.933594, 0.881626, 0.400242, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "50"
+text = "500141"
 align = 2
 valign = 1
 clip_text = true
 
-[node name="Gap2" type="MarginContainer" parent="UI/Score"]
-margin_left = 443.0
-margin_right = 445.0
-margin_bottom = 44.0
+[node name="Gap2" type="MarginContainer" parent="UI"]
+visible = false
+margin_left = 947.0
+margin_top = 16.0
+margin_right = 949.0
+margin_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.01
 
-[node name="goldTexture" type="TextureRect" parent="UI/Score"]
-margin_left = 449.0
-margin_right = 503.0
-margin_bottom = 44.0
+[node name="goldTexture" type="TextureRect" parent="UI"]
+anchor_left = 0.957
+anchor_top = 0.067
+anchor_right = 0.957
+anchor_bottom = 0.067
+margin_left = -26.9675
+margin_top = -24.2
+margin_right = 27.0325
+margin_bottom = 19.8
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 7 )
 expand = true
-stretch_mode = 5
+stretch_mode = 6
 flip_h = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Score" type="HBoxContainer" parent="UI"]
+visible = false
+anchor_left = 0.738
+anchor_top = 0.063
+anchor_right = 0.738
+anchor_bottom = 0.063
+margin_left = -251.712
+margin_top = -21.8
+margin_right = 252.288
+margin_bottom = 22.2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -137,3 +185,4 @@ __meta__ = {
 }
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
+[connection signal="pressed" from="UI/HomeIco" to="Ball" method="_on_HomeIco_pressed"]

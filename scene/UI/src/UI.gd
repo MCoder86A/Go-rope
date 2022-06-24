@@ -8,7 +8,7 @@ var score = 0
 var original_replay_pos = null
 var original_saveMe_pos = null
 var ad_available_2show : bool = false
-var db_name: String = "score_dbv1.2.1"
+var db_name: String = "score_dbv1.2.2"
 var ad_delay_load : bool = false
 
 onready var db_timer: Timer = Timer.new()

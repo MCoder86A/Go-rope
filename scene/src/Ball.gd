@@ -31,7 +31,7 @@ var game_start_time: int
 var game_elapsed_time: int
 var rope_no = 0
 var speed_x_factor: float
-var db_name: String = "score_dbv1.2.1"
+var db_name: String = "score_dbv1.2.2"
 var n_speed: float
 
 # Resources
@@ -50,8 +50,8 @@ func drawLine(Rope: Line2D, firstPoint: Vector2, secondPoint: Vector2):
 func _ready():
 	path = get_node(path_p)
 	timer = get_node(timer_p)
-	scorelbl = get_node(UI_p).get_node("Score/noOfStar")
-	goldlbl = get_node(UI_p).get_node("Score/noOfGold")
+	scorelbl = get_node(UI_p).get_node("noOfStar")
+	goldlbl = get_node(UI_p).get_node("noOfGold")
 	
 	if not GameDb._is_db_exist(db_name):
 		GameDb._create_db(db_name,
@@ -98,10 +98,13 @@ func main_control_signal(request):
 			direction = Vector2.RIGHT
 			Rope_add(Vector2(position.x-50, position.y), direction)
 			speed = 300
-			get_node(UI_p).get_node("Score/noOfGold").show()
+#			get_node(UI_p).get_node("noOfGold").show()
 			timer.start(2)
 			score = 0
 			speed_x_factor = 0
+			if $Ball.get_animation() != "ball":
+				$Ball.set_rotation_degrees(rad2deg(\
+					active_rope_direction.angle()))
 		"saveMe":
 			game_start_time = OS.get_ticks_msec()
 			rope_no = 0
@@ -344,3 +347,7 @@ func _calculate_swipe(swipe_end):
 #		rguide.hide()
 #
 #	set_bg_size()
+
+
+func _on_HomeIco_pressed():
+	get_tree().change_scene("res://Game/Market/market.tscn")
