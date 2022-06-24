@@ -20,7 +20,8 @@ func _ready():
 			'"MAX_SCORE": 0,'+
 			'"LAST_SCORE": 0,'+
 			'"GOLD": 0,'+
-			'"CHARACTER": 1'+
+			'"CHARACTER": 1,'+
+			'"PURCHASED": ["item"]'+
 		'}')
 	
 	GameDb._open_db(db_name)
