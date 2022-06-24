@@ -80,20 +80,10 @@ func _on_GameOver_visibility_changed():
 		
 	
 
-func _on_replay_button_down():
-	for controls in get_children():
-		if(controls.is_class("Control")):
-			controls.hide()
-	emit_signal("main_control_signal", "replay")
-
 func low_gold():
 	get_node("Animator").play("low_coins")
 	
 
-func _on_saveMe_button_down():
-	get_node("GameOver/Dialog").show()
-	get_node("Animator").play("on_save_me")
-	
 
 func _on_Ad_pressed(): #Ad button
 	if(OS.get_name()=="Android"):
@@ -151,3 +141,15 @@ func _on_Dialog_visibility_changed():
 	if not get_node("GameOver/Dialog").visible:
 		get_node("GameOver/Dialog/low_coins").hide()
 		get_node("GameOver/Dialog/Ad/icon").hide()
+
+
+func _on_saveMe_pressed():
+	get_node("GameOver/Dialog").show()
+	get_node("Animator").play("on_save_me")
+
+
+func _on_replay_pressed():
+	for controls in get_children():
+		if(controls.is_class("Control")):
+			controls.hide()
+	emit_signal("main_control_signal", "replay")

@@ -138,7 +138,7 @@ func _on_Select_pressed():
 
 
 func _on_Start_pressed():
-	get_tree().change_scene("res://scene/Main.tscn")
+	get_tree().change_scene("res://Game/Loading/loading.tscn")
 
 
 func _notification(what):
