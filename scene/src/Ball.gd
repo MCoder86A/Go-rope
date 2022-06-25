@@ -209,8 +209,9 @@ func on_rope_started():
 
 	if _gold_b < round(gold) and is_sound:
 		audio_player.play()
-		goldlbl.text = String(round(gold))
-		GameDb._update(db_name, "GOLD", round(gold))
+	
+	goldlbl.text = String(round(gold))
+	GameDb._update(db_name, "GOLD", round(gold))
 	
 	current_rope_direction = active_rope_direction
 	can_add_new_rope = true
