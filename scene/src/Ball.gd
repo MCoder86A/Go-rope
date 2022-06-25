@@ -31,8 +31,10 @@ var game_start_time: int
 var game_elapsed_time: int
 var rope_no = 0
 var speed_x_factor: float
-var db_name: String = "score_dbv1.2.2"
+var db_name: String = "score_dbv1.2.3"
 var n_speed: float
+var audio_player: AudioStreamPlayer
+var is_sound: bool = 0
 
 # Resources
 var path: Node2D
@@ -40,6 +42,7 @@ var timer: Timer
 var scorelbl: Label
 var goldlbl: Label
 var res_Rope = load("res://scene/Rope.tscn")
+var gold_collected = preload("res://asset/sound/mixkit-gold-coin-prize-1999.wav")
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -59,11 +62,21 @@ func _ready():
 			'"MAX_SCORE": 0,'+
 			'"LAST_SCORE": 0,'+
 			'"GOLD": 0,'+
-			'"CHARACTER": 1'+
+			'"CHARACTER": 1,'+
+			'"PURCHASED": ["item"],'+
+			'"SOUND": 1'+
 		'}')
 	GameDb._open_db(db_name)
 	gold = GameDb._get_db(db_name)["GOLD"]
 	goldlbl.text = String(round(gold))
+	
+	if int(GameDb._get_db(db_name)["SOUND"]) == 1:
+		is_sound = true
+		get_node(UI_p).get_node("Sound").show()
+		
+	else:
+		is_sound = false
+		get_node(UI_p).get_node("Mute").show()
 	
 	Rope_add(Vector2(position.x-50, position.y), direction)
 	rng.randomize()
@@ -86,6 +99,10 @@ func _ready():
 			$Ball.play("character1")
 			$Ball.scale = Vector2(0.4, 0.4)
 			$Ball.position = Vector2(0, 8)
+			
+	audio_player = get_node("/root/Main/AudioPlayer")
+	audio_player.set_stream(gold_collected)
+
 
 func main_control_signal(request):
 	match request:
@@ -182,6 +199,7 @@ func on_rope_started():
 	
 	game_elapsed_time = (OS.get_ticks_msec() - game_start_time)/1e3
 	
+	var _gold_b = gold
 	if n_speed < 400 and rope_no > 1:
 		gold += pow(n_speed/300.0, 4)
 	elif n_speed < 430 and rope_no > 1:
@@ -189,8 +207,10 @@ func on_rope_started():
 	elif rope_no > 1:
 		gold += pow(n_speed/300.0, 7)
 
-	goldlbl.text = String(round(gold))
-	GameDb._update(db_name, "GOLD", round(gold))
+	if _gold_b < round(gold) and is_sound:
+		audio_player.play()
+		goldlbl.text = String(round(gold))
+		GameDb._update(db_name, "GOLD", round(gold))
 	
 	current_rope_direction = active_rope_direction
 	can_add_new_rope = true
@@ -351,3 +371,17 @@ func _calculate_swipe(swipe_end):
 
 func _on_HomeIco_pressed():
 	get_tree().change_scene("res://Game/Market/market.tscn")
+
+
+func _on_Mute_pressed():
+	is_sound = true
+	get_node(UI_p).get_node("Sound").show()
+	get_node(UI_p).get_node("Mute").hide()
+	GameDb._update(db_name, "SOUND", 1)
+
+
+func _on_Sound_pressed():
+	is_sound = false
+	get_node(UI_p).get_node("Mute").show()
+	get_node(UI_p).get_node("Sound").hide()
+	GameDb._update(db_name, "SOUND", 0)

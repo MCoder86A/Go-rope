@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
@@ -9,6 +9,10 @@
 [ext_resource path="res://asset/texture/Coins.png" type="Texture" id=7]
 [ext_resource path="res://asset/texture/Home_ico.png" type="Texture" id=8]
 [ext_resource path="res://asset/texture/dark/Go rope/Home_ico.png" type="Texture" id=9]
+[ext_resource path="res://asset/texture/sound/mute.png" type="Texture" id=10]
+[ext_resource path="res://asset/texture/sound/mute_dark.png" type="Texture" id=11]
+[ext_resource path="res://asset/texture/sound/sound.png" type="Texture" id=12]
+[ext_resource path="res://asset/texture/sound/sound_dark.png" type="Texture" id=13]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://asset/font/JosefinSans-Regular.ttf"
@@ -170,6 +174,35 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="Mute" type="TextureButton" parent="UI"]
+visible = false
+anchor_left = 0.031
+anchor_top = 0.067
+anchor_right = 0.031
+anchor_bottom = 0.067
+margin_left = 56.256
+margin_top = -10.2
+margin_right = 102.256
+margin_bottom = 31.8
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
+expand = true
+
+[node name="Sound" type="TextureButton" parent="UI"]
+visible = false
+anchor_left = 0.031
+anchor_top = 0.067
+anchor_right = 0.031
+anchor_bottom = 0.067
+margin_left = 56.256
+margin_top = -8.2
+margin_right = 96.256
+margin_bottom = 31.8
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
+expand = true
+stretch_mode = 4
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource( 6 )
 
@@ -186,5 +219,9 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
 [connection signal="pressed" from="UI/HomeIco" to="Ball" method="_on_HomeIco_pressed"]
+[connection signal="pressed" from="UI/Mute" to="Ball" method="_on_Mute_pressed"]
+[connection signal="pressed" from="UI/Sound" to="Ball" method="_on_Sound_pressed"]

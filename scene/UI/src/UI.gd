@@ -8,7 +8,7 @@ var score = 0
 var original_replay_pos = null
 var original_saveMe_pos = null
 var ad_available_2show : bool = false
-var db_name: String = "score_dbv1.2.2"
+var db_name: String = "score_dbv1.2.3"
 var ad_delay_load : bool = false
 
 onready var db_timer: Timer = Timer.new()
@@ -21,7 +21,8 @@ func _ready():
 			'"LAST_SCORE": 0,'+
 			'"GOLD": 0,'+
 			'"CHARACTER": 1,'+
-			'"PURCHASED": ["item"]'+
+			'"PURCHASED": ["item"],'+
+			'"SOUND": 1'+
 		'}')
 	
 	GameDb._open_db(db_name)
@@ -52,7 +53,7 @@ func gameover(_score: int):
 	if _score > highest_score:
 		highest_score = _score
 	$GameOver.show()
-	
+	GameDb._save_db(db_name)
 
 	GameDb._update(db_name, "MAX_SCORE", highest_score)
 	GameDb._update(db_name, "LAST_SCORE", score)
@@ -130,7 +131,15 @@ func _on_ad_reward(curr:String = "", am:int = -1):
 
 
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+	var is_trigger :bool = (
+			what == MainLoop.NOTIFICATION_APP_PAUSED ||
+			what == MainLoop.NOTIFICATION_CRASH ||
+			what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST ||
+			what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST ||
+			what == MainLoop.NOTIFICATION_WM_FOCUS_OUT ||
+			what == MainLoop.NOTIFICATION_WM_MOUSE_EXIT
+		)
+	if is_trigger:
 		GameDb._save_db(db_name)
 
 

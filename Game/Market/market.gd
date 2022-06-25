@@ -1,6 +1,6 @@
 extends Control
 
-var db_name: String = "score_dbv1.2.2"
+var db_name: String = "score_dbv1.2.3"
 var gold : int
 var active_item : String
 var showing_item : TextureRect
@@ -19,7 +19,8 @@ func _ready():
 			'"LAST_SCORE": 0,'+
 			'"GOLD": 0,'+
 			'"CHARACTER": 1,'+
-			'"PURCHASED": ["item"]'+
+			'"PURCHASED": ["item"],'+
+			'"SOUND": 1'+
 		'}')
 	GameDb._open_db(db_name)
 	gold = GameDb._get_db(db_name)["GOLD"]
@@ -94,7 +95,7 @@ func _on_left_pressed():
 
 
 func _on_Unlock_pressed():
-	if gold > 2000:
+	if gold >= 2000:
 		var after_sale_gold: int = gold-2000 
 		GameDb._update(db_name, "GOLD", after_sale_gold)
 		gold = GameDb._get_db(db_name)["GOLD"]
@@ -109,6 +110,7 @@ func _on_Unlock_pressed():
 			$Toast/player.stop()
 		$Toast/Label.text = "Player unlocked"
 		$Toast/player.play("make_toast")
+		GameDb._save_db(db_name)
 	else:
 		if($Toast/player.is_playing()):
 			$Toast/player.stop()
@@ -134,6 +136,7 @@ func _on_Select_pressed():
 		$Toast/player.stop()
 	$Toast/Label.text = "Player selected"
 	$Toast/player.play("make_toast")
+	GameDb._save_db(db_name)
 	
 
 
@@ -142,5 +145,15 @@ func _on_Start_pressed():
 
 
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+	var is_trigger :bool = (
+			what == MainLoop.NOTIFICATION_APP_PAUSED ||
+			what == MainLoop.NOTIFICATION_CRASH ||
+			what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST ||
+			what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST ||
+			what == MainLoop.NOTIFICATION_WM_FOCUS_OUT ||
+			what == MainLoop.NOTIFICATION_WM_MOUSE_EXIT
+		)
+	if is_trigger:
 		GameDb._save_db(db_name)
+
+

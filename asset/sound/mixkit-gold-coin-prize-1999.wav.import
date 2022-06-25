@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mixkit-gold-coin-prize-1999.wav-ae17a85cd9283da91acf01f294ba087b.sample"
+
+[deps]
+
+source_file="res://asset/sound/mixkit-gold-coin-prize-1999.wav"
+dest_files=[ "res://.import/mixkit-gold-coin-prize-1999.wav-ae17a85cd9283da91acf01f294ba087b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
