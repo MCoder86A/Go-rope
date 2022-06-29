@@ -2,7 +2,7 @@
 
 name="AdMob"
 binary_type="local"
-binary="admob-debug.aar"
+binary="admob-release.aar"
 
 [dependencies]
 
