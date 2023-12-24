@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scene/src/Ball.gd" type="Script" id=1]
 [ext_resource path="res://scene/Ball.tscn" type="PackedScene" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://asset/texture/sound/mute_dark.png" type="Texture" id=11]
 [ext_resource path="res://asset/texture/sound/sound.png" type="Texture" id=12]
 [ext_resource path="res://asset/texture/sound/sound_dark.png" type="Texture" id=13]
+[ext_resource path="res://asset/sound/mixkit-gold-coin-prize-1999.wav" type="AudioStream" id=14]
+[ext_resource path="res://asset/music/8-bit-game-158815.mp3" type="AudioStream" id=15]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://asset/font/JosefinSans-Regular.ttf"
@@ -219,7 +221,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="Node" parent="."]
+
+[node name="GoldCollect" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 14 )
+
+[node name="Background" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 15 )
+volume_db = -16.178
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
 [connection signal="pressed" from="UI/HomeIco" to="Ball" method="_on_HomeIco_pressed"]

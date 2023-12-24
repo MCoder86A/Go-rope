@@ -1,5 +1,5 @@
 extends Control
-
+var audio : AudioStreamPlayer
 
 func _ready():
 	var rect = get_viewport_rect()

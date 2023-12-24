@@ -34,6 +34,7 @@ var speed_x_factor: float
 var db_name: String = "score_dbv1.2.3"
 var n_speed: float
 var audio_player: AudioStreamPlayer
+var backgroundMusic: AudioStreamPlayer
 var is_sound: bool = 0
 
 # Resources
@@ -100,9 +101,10 @@ func _ready():
 			$Ball.scale = Vector2(0.4, 0.4)
 			$Ball.position = Vector2(0, 8)
 			
-	audio_player = get_node("/root/Main/AudioPlayer")
-	audio_player.set_stream(gold_collected)
-
+	audio_player = get_node("/root/Main/Audio/GoldCollect")
+	backgroundMusic = get_node("/root/Main/Audio/Background")
+	if is_sound:
+		backgroundMusic.play()
 
 func main_control_signal(request):
 	match request:
@@ -379,6 +381,7 @@ func _on_Mute_pressed():
 	get_node(UI_p).get_node("Sound").show()
 	get_node(UI_p).get_node("Mute").hide()
 	GameDb._update(db_name, "SOUND", 1)
+	backgroundMusic.play()
 
 
 func _on_Sound_pressed():
@@ -386,3 +389,4 @@ func _on_Sound_pressed():
 	get_node(UI_p).get_node("Mute").show()
 	get_node(UI_p).get_node("Sound").hide()
 	GameDb._update(db_name, "SOUND", 0)
+	backgroundMusic.stop()
