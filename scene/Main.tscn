@@ -225,10 +225,10 @@ __meta__ = {
 
 [node name="GoldCollect" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 14 )
+volume_db = -7.5
 
 [node name="Background" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 15 )
-volume_db = -16.178
 
 [connection signal="timeout" from="BallTimer" to="Ball" method="_on_BallTimer_timeout"]
 [connection signal="pressed" from="UI/HomeIco" to="Ball" method="_on_HomeIco_pressed"]
